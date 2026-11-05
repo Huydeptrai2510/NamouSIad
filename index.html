@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="robots" content="noindex, nofollow">
+  <meta name="theme-color" content="#080c16">
+  <title>NamouSI Admin</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body class="adm" data-page="admin">
+
+  <div class="adm-splash" id="screenLoading">
+    <span class="spinner" aria-hidden="true"></span>
+    <p>Đang kiểm tra phiên đăng nhập...</p>
+  </div>
+
+  <main class="adm-login" id="loginView" hidden>
+    <form class="card adm-login-card" id="loginForm" novalidate>
+      <span class="pub-logo"><span class="pub-logo-mark" aria-hidden="true">N</span><span>Namou<b>SI</b> Admin</span></span>
+      <h1>Đăng nhập quản trị</h1>
+      <div class="state state-error" id="loginError" role="alert" hidden></div>
+      <label class="field">Email
+        <input class="input" id="loginEmail" type="email" autocomplete="username" required>
+      </label>
+      <label class="field">Mật khẩu
+        <input class="input" id="loginPassword" type="password" autocomplete="current-password" required minlength="6">
+      </label>
+      <button class="btn btn-primary btn-block" id="loginBtn" type="submit">Đăng nhập</button>
+      <p class="adm-hint">Tài khoản quản trị được cấp trực tiếp trong Supabase. <a id="homeLink" href="#" hidden>Về trang chủ</a></p>
+    </form>
+  </main>
+
+  <div class="adm-app" id="appView" hidden>
+    <aside class="adm-sidebar" id="sidebar" aria-label="Menu quản trị">
+      <span class="pub-logo"><span class="pub-logo-mark" aria-hidden="true">N</span><span>Namou<b>SI</b></span></span>
+      <nav class="adm-nav">
+        <button class="adm-nav-item" type="button" data-nav="dashboard">Tổng quan</button>
+        <span class="adm-nav-group">Nội dung</span>
+        <button class="adm-nav-item" type="button" data-nav="ai">Quản lý AI</button>
+        <button class="adm-nav-item" type="button" data-nav="categories">Danh mục</button>
+        <button class="adm-nav-item" type="button" data-nav="tags">Tag</button>
+        <button class="adm-nav-item" type="button" data-nav="prompts">Prompt</button>
+        <button class="adm-nav-item" type="button" data-nav="news">Tin tức</button>
+        <span class="adm-nav-group">Cộng đồng</span>
+        <button class="adm-nav-item" type="button" data-nav="users">Người dùng</button>
+        <button class="adm-nav-item" type="button" data-nav="reviews">Đánh giá</button>
+        <span class="adm-nav-group">Hệ thống</span>
+        <button class="adm-nav-item" type="button" data-nav="settings">Cài đặt Supabase</button>
+      </nav>
+    </aside>
+
+    <div class="adm-main">
+      <header class="adm-topbar">
+        <button class="btn btn-ghost adm-burger" id="sidebarBtn" type="button" aria-label="Mở menu">Menu</button>
+        <h1 id="viewTitle">Tổng quan</h1>
+        <div class="adm-user">
+          <span id="userEmail"></span>
+          <button class="btn btn-sm" id="logoutBtn" type="button">Đăng xuất</button>
+        </div>
+      </header>
+
+      <div class="adm-content">
+        <section data-view="dashboard">
+          <div class="stat-grid" id="statGrid"></div>
+        </section>
+
+        <section data-view="ai" hidden>
+          <div class="adm-toolbar"><div class="adm-filters"><input class="input" type="search" placeholder="Tìm theo tên hoặc slug..." aria-label="Tìm kiếm" data-q><select class="input" data-fc aria-label="Lọc danh mục"></select><select class="input" data-fs aria-label="Lọc trạng thái"><option value="">Mọi trạng thái</option><option value="draft">Nháp / ẩn</option><option value="published">Xuất bản</option><option value="archived">Lưu trữ</option></select></div><div class="adm-actions"><button class="btn btn-sm" type="button" data-refresh="ai">Tải lại</button><button class="btn btn-primary btn-sm" type="button" data-add="ai">Thêm mới</button></div></div>
+          <div class="table-wrap" data-list="ai"></div>
+        </section>
+
+        <section data-view="categories" hidden>
+          <div class="adm-toolbar"><div class="adm-filters"><input class="input" type="search" placeholder="Tìm theo tên hoặc slug..." aria-label="Tìm kiếm" data-q><select class="input" data-fs aria-label="Lọc trạng thái"><option value="">Mọi trạng thái</option><option value="draft">Nháp / ẩn</option><option value="published">Xuất bản</option><option value="archived">Lưu trữ</option></select></div><div class="adm-actions"><button class="btn btn-sm" type="button" data-refresh="categories">Tải lại</button><button class="btn btn-primary btn-sm" type="button" data-add="categories">Thêm mới</button></div></div>
+          <div class="table-wrap" data-list="categories"></div>
+        </section>
+
+        <section data-view="tags" hidden>
+          <div class="adm-toolbar"><div class="adm-filters"><input class="input" type="search" placeholder="Tìm theo tên hoặc slug..." aria-label="Tìm kiếm" data-q></div><div class="adm-actions"><button class="btn btn-sm" type="button" data-refresh="tags">Tải lại</button><button class="btn btn-primary btn-sm" type="button" data-add="tags">Thêm mới</button></div></div>
+          <div class="table-wrap" data-list="tags"></div>
+        </section>
+
+        <section data-view="prompts" hidden>
+          <div class="adm-toolbar"><div class="adm-filters"><input class="input" type="search" placeholder="Tìm theo tên hoặc slug..." aria-label="Tìm kiếm" data-q><select class="input" data-fc aria-label="Lọc danh mục"></select><select class="input" data-fs aria-label="Lọc trạng thái"><option value="">Mọi trạng thái</option><option value="draft">Nháp / ẩn</option><option value="published">Xuất bản</option><option value="archived">Lưu trữ</option></select></div><div class="adm-actions"><button class="btn btn-sm" type="button" data-refresh="prompts">Tải lại</button><button class="btn btn-primary btn-sm" type="button" data-add="prompts">Thêm mới</button></div></div>
+          <div class="table-wrap" data-list="prompts"></div>
+        </section>
+
+        <section data-view="news" hidden>
+          <div class="adm-toolbar"><div class="adm-filters"><input class="input" type="search" placeholder="Tìm theo tên hoặc slug..." aria-label="Tìm kiếm" data-q><select class="input" data-fs aria-label="Lọc trạng thái"><option value="">Mọi trạng thái</option><option value="draft">Nháp / ẩn</option><option value="published">Xuất bản</option><option value="archived">Lưu trữ</option></select></div><div class="adm-actions"><button class="btn btn-sm" type="button" data-refresh="news">Tải lại</button><button class="btn btn-primary btn-sm" type="button" data-add="news">Thêm mới</button></div></div>
+          <div class="table-wrap" data-list="news"></div>
+        </section>
+
+        <section data-view="users" hidden>
+          <div class="grid"><div class="state state-empty"><p>Quản lý người dùng sẽ được triển khai ở giai đoạn Community. Số tài khoản hiện có xem ở mục Tổng quan.</p></div></div>
+        </section>
+
+        <section data-view="reviews" hidden>
+          <div class="grid"><div class="state state-empty"><p>Quản lý đánh giá sẽ được triển khai ở giai đoạn Community.</p></div></div>
+        </section>
+
+        <section data-view="settings" hidden>
+          <div class="card adm-panel">
+            <h2>Kết nối Supabase</h2>
+            <dl class="kv">
+              <dt>Project URL</dt><dd id="cfgUrl">—</dd>
+              <dt>Khóa anon</dt><dd id="cfgKey">—</dd>
+              <dt>Tài khoản</dt><dd id="cfgUser">—</dd>
+              <dt>Quyền</dt><dd>Admin (xác thực từ bảng <code>user_roles</code>)</dd>
+            </dl>
+            <p class="muted" style="margin-bottom:1rem">Cấu hình nằm ở đầu file <code>script.js</code> (<code>SUPABASE_URL</code>, <code>SUPABASE_ANON_KEY</code>). Không dùng service_role key ở frontend.</p>
+            <button class="btn btn-primary" id="testBtn" type="button">Kiểm tra kết nối</button>
+            <div id="testResult"></div>
+          </div>
+          <div class="card adm-panel">
+            <h2>Kho ảnh GitHub</h2>
+            <dl class="kv">
+              <dt>Repo ảnh</dt><dd id="ghRepo">—</dd>
+              <dt>Token</dt><dd id="ghState">Chưa nhập</dd>
+            </dl>
+            <label class="field">GitHub token (fine-grained, quyền Contents: Read and write cho đúng repo ảnh)
+              <input class="input" id="ghToken" type="password" autocomplete="off" placeholder="github_pat_...">
+            </label>
+            <label class="adm-check"><input type="checkbox" id="ghRemember"> Ghi nhớ token trên trình duyệt này (mặc định chỉ giữ trong tab hiện tại)</label>
+            <div class="adm-actions"><button class="btn btn-primary" id="ghSave" type="button">Lưu &amp; kiểm tra token</button><button class="btn" id="ghClear" type="button">Xóa token</button></div>
+            <div id="ghResult"></div>
+          </div>
+        </section>
+      </div>
+    </div>
+  </div>
+
+  <div class="modal" id="modal" hidden>
+    <div class="modal-backdrop" data-close></div>
+    <div class="modal-dialog" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
+      <div class="modal-head">
+        <h2 id="modalTitle">Chi tiết</h2>
+        <button class="btn btn-ghost btn-sm" type="button" data-close aria-label="Đóng">Đóng</button>
+      </div>
+      <div class="modal-body" id="modalBody"></div>
+    </div>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.js"></script>
+  <script src="script.js"></script>
+</body>
+</html>

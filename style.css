@@ -1,0 +1,159 @@
+/* =====================================================================
+   NamouSI – style.css của WEBSITE ADMIN (dự án riêng)
+   Phần 1: tokens + component | Phần 2: logo | Phần 3: .adm-* + CRUD + responsive
+   ===================================================================== */
+
+/* ---------- 1. TOKENS & BASE ---------- */
+:root {
+  --bg: #080c16;
+  --bg-soft: #0d1322;
+  --surface: #121a2c;
+  --surface-2: #19233a;
+  --border: #25314b;
+  --text: #e8edf8;
+  --muted: #94a1bb;
+  --primary: #2dd4bf;
+  --primary-2: #6d7cff;
+  --danger: #fb7185;
+  --ok: #34d399;
+  --radius: 10px;
+  --font: "Segoe UI", system-ui, -apple-system, "Helvetica Neue", Arial, sans-serif;
+  --mono: ui-monospace, "SF Mono", Menlo, Consolas, monospace;
+}
+*, *::before, *::after { box-sizing: border-box; }
+[hidden] { display: none !important; }
+html { scroll-behavior: smooth; scroll-padding-top: 84px; }
+body { margin: 0; font: 15px/1.6 var(--font); background: var(--bg); color: var(--text); -webkit-font-smoothing: antialiased; }
+h1, h2, h3, p { margin: 0; }
+h1, h2, h3 { line-height: 1.25; letter-spacing: -0.01em; }
+a { color: var(--primary); text-decoration: none; }
+a:hover { text-decoration: underline; }
+img { max-width: 100%; display: block; }
+code { font-family: var(--mono); font-size: .9em; background: var(--surface-2); padding: .1em .4em; border-radius: 5px; }
+:focus-visible { outline: 2px solid var(--primary); outline-offset: 2px; }
+.muted { color: var(--muted); }
+
+/* Button */
+.btn { display: inline-flex; align-items: center; justify-content: center; gap: .5rem; padding: .55rem 1.05rem; border: 1px solid var(--border); border-radius: var(--radius); background: var(--surface-2); color: var(--text); font: inherit; font-weight: 600; cursor: pointer; transition: border-color .15s, background .15s; }
+.btn:hover { border-color: var(--primary); text-decoration: none; }
+.btn:disabled { opacity: .55; cursor: not-allowed; }
+.btn-primary { background: linear-gradient(135deg, var(--primary), var(--primary-2)); border-color: transparent; color: #061018; }
+.btn-primary:hover { filter: brightness(1.08); }
+.btn-ghost { background: transparent; }
+.btn-sm { padding: .25rem .65rem; font-size: 13px; }
+.btn-block { width: 100%; }
+
+/* Input */
+.input { width: 100%; padding: .6rem .8rem; border: 1px solid var(--border); border-radius: var(--radius); background: var(--bg-soft); color: var(--text); font: inherit; }
+.input::placeholder { color: #66738f; }
+.input:focus { outline: none; border-color: var(--primary); box-shadow: 0 0 0 3px rgba(45, 212, 191, .18); }
+.field { display: grid; gap: .35rem; margin-bottom: 1rem; font-weight: 600; font-size: 14px; }
+
+/* Card, badge, grid */
+.card { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); padding: 1.1rem; }
+.badge { display: inline-block; padding: .1rem .55rem; border-radius: 999px; background: var(--surface-2); border: 1px solid var(--border); color: var(--muted); font-size: 12px; }
+.badge-published { color: var(--ok); border-color: rgba(52, 211, 153, .4); }
+.badge-draft { color: #fbbf24; border-color: rgba(251, 191, 36, .4); }
+.grid { display: grid; gap: 1rem; grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); }
+
+/* Loading / empty / error states */
+.state { grid-column: 1 / -1; display: flex; align-items: center; justify-content: center; gap: .7rem; padding: 2rem 1rem; border: 1px dashed var(--border); border-radius: var(--radius); color: var(--muted); text-align: center; }
+.state-error { color: var(--danger); border-color: rgba(251, 113, 133, .45); background: rgba(251, 113, 133, .06); }
+.state-ok { color: var(--ok); border-color: rgba(52, 211, 153, .45); background: rgba(52, 211, 153, .06); }
+.spinner { width: 18px; height: 18px; border: 2px solid var(--border); border-top-color: var(--primary); border-radius: 50%; animation: spin .8s linear infinite; flex: none; }
+@keyframes spin { to { transform: rotate(360deg); } }
+
+/* Modal */
+.modal { position: fixed; inset: 0; z-index: 100; display: grid; place-items: center; padding: 1rem; }
+.modal-backdrop { position: absolute; inset: 0; background: rgba(3, 6, 12, .72); }
+.modal-dialog { position: relative; width: min(640px, 100%); max-height: 88vh; display: flex; flex-direction: column; background: var(--surface); border: 1px solid var(--border); border-radius: 14px; }
+.modal-head { display: flex; align-items: center; justify-content: space-between; gap: 1rem; padding: .9rem 1.1rem; border-bottom: 1px solid var(--border); }
+.modal-body { padding: 1.1rem; overflow: auto; }
+
+/* Danh sách khóa – giá trị */
+.kv { display: grid; grid-template-columns: minmax(110px, 30%) 1fr; gap: .5rem 1rem; margin: 0 0 1rem; }
+.kv dt { color: var(--muted); }
+.kv dd { margin: 0; word-break: break-word; }
+
+/* ---------- 2. LOGO (dùng ở màn đăng nhập và sidebar) ---------- */
+.pub-logo { display: inline-flex; align-items: center; gap: .55rem; font-size: 1.25rem; font-weight: 700; color: var(--text); }
+.pub-logo:hover { text-decoration: none; }
+.pub-logo b { color: var(--primary); }
+.pub-logo-mark { width: 30px; height: 30px; display: grid; place-items: center; border-radius: 8px; background: linear-gradient(135deg, var(--primary), var(--primary-2)); color: #061018; font-weight: 800; }
+
+/* ---------- 3. WEBSITE ADMIN (.adm-*) ---------- */
+.adm-splash { min-height: 100vh; display: grid; place-content: center; justify-items: center; gap: .8rem; color: var(--muted); }
+.adm-login { min-height: 100vh; display: grid; place-items: center; padding: 1rem; }
+.adm-login-card { width: min(400px, 100%); padding: 1.6rem; }
+.adm-login-card h1 { font-size: 1.35rem; margin: 1.2rem 0 1rem; }
+.adm-login-card .state { margin-bottom: 1rem; padding: .7rem; justify-content: flex-start; text-align: left; }
+.adm-hint { margin-top: 1rem; font-size: 13px; color: var(--muted); }
+
+.adm-app { display: grid; grid-template-columns: 240px 1fr; min-height: 100vh; }
+.adm-sidebar { position: sticky; top: 0; height: 100vh; display: flex; flex-direction: column; gap: 1rem; padding: 1rem .75rem; background: var(--bg-soft); border-right: 1px solid var(--border); overflow-y: auto; }
+.adm-sidebar .pub-logo { padding: .25rem .5rem; }
+.adm-nav { display: grid; gap: 2px; }
+.adm-nav-item { text-align: left; padding: .55rem .75rem; border: 0; border-radius: 8px; background: transparent; color: var(--muted); font: inherit; font-weight: 600; cursor: pointer; }
+.adm-nav-item:hover { background: var(--surface); color: var(--text); }
+.adm-nav-item.active { background: var(--surface-2); color: var(--primary); box-shadow: inset 3px 0 0 var(--primary); }
+.adm-nav-group { margin: .8rem .75rem .2rem; font-size: 12px; color: #66738f; }
+
+.adm-main { min-width: 0; }
+.adm-topbar { position: sticky; top: 0; z-index: 20; display: flex; align-items: center; gap: .8rem; padding: .7rem 1.25rem; background: rgba(8, 12, 22, .92); backdrop-filter: blur(8px); border-bottom: 1px solid var(--border); }
+.adm-topbar h1 { font-size: 1.15rem; }
+.adm-burger { display: none; }
+.adm-user { margin-left: auto; display: flex; align-items: center; gap: .7rem; font-size: 14px; color: var(--muted); min-width: 0; }
+.adm-user span { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.adm-content { padding: 1.25rem; max-width: 1200px; }
+.adm-toolbar { display: flex; align-items: center; justify-content: space-between; gap: 1rem; flex-wrap: wrap; margin-bottom: 1rem; }
+.adm-panel { max-width: 640px; }
+.adm-panel h2 { font-size: 1.1rem; margin-bottom: 1rem; }
+.adm-panel .btn { margin-bottom: 1rem; }
+
+.stat-grid { display: grid; gap: 1rem; grid-template-columns: repeat(auto-fill, minmax(170px, 1fr)); }
+.stat-label { color: var(--muted); font-size: 14px; }
+.stat-value { display: block; margin-top: .3rem; font-size: 2rem; line-height: 1.1; }
+
+.table-wrap { overflow-x: auto; border: 1px solid var(--border); border-radius: var(--radius); }
+.table-wrap > .state { border: 0; }
+.table { width: 100%; border-collapse: collapse; font-size: 14px; }
+.table th, .table td { padding: .65rem .9rem; text-align: left; border-bottom: 1px solid var(--border); white-space: nowrap; }
+.table th { background: var(--surface); color: var(--muted); font-weight: 600; }
+.table tbody tr:hover { background: var(--surface); }
+.table tr:last-child td { border-bottom: 0; }
+
+/* CRUD */
+textarea.input { resize: vertical; min-height: 44px; }
+input[type="file"].input { padding: .4rem; }
+.adm-filters { display: flex; flex-wrap: wrap; gap: .5rem; flex: 1; min-width: 0; }
+.adm-filters .input { width: auto; flex: 1 1 160px; }
+.adm-actions { display: flex; gap: .4rem; }
+.adm-check { display: flex; align-items: center; gap: .5rem; font-weight: 500; }
+.adm-check input { width: auto; }
+.adm-form-actions { display: flex; gap: .6rem; justify-content: flex-end; margin-top: .5rem; }
+fieldset.field { border: 0; padding: 0; min-width: 0; }
+fieldset.field legend { padding: 0; margin-bottom: .35rem; }
+.chips { display: flex; flex-wrap: wrap; gap: .4rem; }
+.chip { display: inline-flex; align-items: center; gap: .35rem; padding: .2rem .65rem; border: 1px solid var(--border); border-radius: 999px; font-weight: 500; font-size: 13px; cursor: pointer; }
+.modal-body .state { margin-bottom: .8rem; }
+.adm-panel + .adm-panel { margin-top: 1rem; }
+.adm-panel .adm-check { margin-bottom: 1rem; }
+
+/* ---------- 4. RESPONSIVE ---------- */
+@media (max-width: 900px) {
+  .adm-app { grid-template-columns: 1fr; }
+  .adm-sidebar { position: fixed; z-index: 60; left: 0; top: 0; width: 250px; transform: translateX(-100%); transition: transform .2s; }
+  .adm-sidebar.open { transform: none; box-shadow: 0 0 0 100vmax rgba(3, 6, 12, .6); }
+  .adm-burger { display: inline-flex; }
+  .adm-content { padding: 1rem; }
+}
+@media (max-width: 520px) {
+  .grid { grid-template-columns: 1fr; }
+  .kv { grid-template-columns: 1fr; gap: .1rem; }
+  .kv dd { margin-bottom: .6rem; }
+  .adm-user span { display: none; }
+}
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  *, *::before, *::after { animation-duration: .01ms !important; transition-duration: .01ms !important; }
+}
