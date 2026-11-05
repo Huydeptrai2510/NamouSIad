@@ -11,7 +11,7 @@
        - Project URL
        - anon / publishable key (khóa CÔNG KHAI)
      TUYỆT ĐỐI KHÔNG dán service_role / secret key vào đây. */
-  const SUPABASE_URL = '//aulcrgxmrmcgjjiztyuj.supabase.co';
+  const SUPABASE_URL = 'https://aulcrgxmrmcgjjiztyuj.supabase.co';
   const SUPABASE_ANON_KEY = 'sb_publishable_wzjzypPB3TCdGOkydRzisw_s4D_dlw6';
 
   /* Kho ảnh GitHub: ảnh được đẩy vào repo của website PUBLIC (thư mục dir) bằng GitHub API.
